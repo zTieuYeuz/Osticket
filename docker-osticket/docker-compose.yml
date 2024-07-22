@@ -1,0 +1,46 @@
+version: '3.1'
+
+services:
+  osticket:
+    image: tiredofit/osticket:latest
+    container_name: osticket
+#    build:
+ #     context: .
+  #    dockerfile: ./Dockerfile
+    environment:
+      - INSTALL_SECRET=some-random-secret
+      - INSTALL_EMAIL=tranminhthoai788@gmail.com
+      - INSTALL_NAME=MyHelpdesk
+      - ADMIN_FIRSTNAME=Admin
+      - ADMIN_LASTNAME=User
+      - ADMIN_EMAIL=thoaitran@vus-etsc.edu.vn
+      - ADMIN_USER=administrator
+      - ADMIN_PASS=administrator
+      - CRON_INTERVAL=10
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_NAME=osticket
+      - DB_USER=osticket
+      - DB_PASS=osticket_password
+      - DB_PREFIX=ost_
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+   # volumes:
+   #   - osticket-config:/assets/install/include/
+
+  db:
+    image: mariadb:10.3
+    container_name: osticket-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_password
+      - MYSQL_DATABASE=osticket
+      - MYSQL_USER=osticket
+      - MYSQL_PASSWORD=osticket_password
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
+  #osticket-config:
